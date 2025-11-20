@@ -3,11 +3,11 @@ import os
 
 # 분석할 엑셀 파일 리스트
 excel_files = [
-    "2025_1(1차 수정).xlsx", 
-    "2025_1-2(1차 수정).xlsx", 
-    "2025_2(1차 수정).xlsx",
-    "2025_2-2(1차 수정).xlsx", 
+    "dummy-01.xlsx",
+    "dummy-02.xlsx",
 ]
+# 칼럼 내 메시지를 의미하는 칼럼의 이름 지정
+message_column = 'msg'
 
 # keywords.txt에서 키워드 읽기
 keyword_file = "keywords.txt"
@@ -40,7 +40,7 @@ for file in excel_files:
     # df == DataFrame : 엑셀의 시트를 그대로 담은 표 객체. sheet 자체를 의미 (pandas에서는 하나의 DataFrame을 df라는 변수로 받음)
         print(f"  🔍 시트: {sheet_name}")
 
-        if "msg" not in df.columns or "result" not in df.columns: # df.colums에서 msg 컬럼과 result 컬럼의 여부를 확인 
+        if message_column not in df.columns or "result" not in df.columns: # df.colums에서 msg 컬럼과 result 컬럼의 여부를 확인 
             print("    ⚠ msg 또는 result 컬럼 없음 - 건너뜀")
             continue 
 
@@ -57,7 +57,7 @@ for file in excel_files:
 
         # 키워드 집계
         for kw in keywords:
-            count = df_s["msg"].astype(str).str.contains(kw, na=False).sum() 
+            count = df_s[message_column].astype(str).str.contains(kw, na=False).sum() 
             # .astype(str) : msg 컬럼의 값을 문자열로 설정 (숫자/None이어도 문자열로 변환) > 문자열 검색을 안전하게 하기 위해 
             # str.contains(kw) : 각 문자들 중에 keyword(kw)가 들어있는지 확인하고 True/False 리스트 반환(na=False : NaN이면 False로 처리함)
             # 한 문자를 가지고 kw 개수만큼 반복을 도는데 해당 kw가 한 문자에 몇 개 들어있는지 확인하고, 그걸 더한 값을 저장함 
