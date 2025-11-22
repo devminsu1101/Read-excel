@@ -1,6 +1,6 @@
 import pandas as pd
 
-file = "dummy-01.xlsx"
+file = "dummy_raw_messages.xlsx" # 살펴보고싶은 파일 이름 설정 
 sheets = pd.read_excel(file, sheet_name=None)
 
 for sheet_name, df in sheets.items():
